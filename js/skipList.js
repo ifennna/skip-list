@@ -2,27 +2,28 @@ import ListItem from "./listItem.js";
 
 export default class SkipList {
   constructor() {
-    this.lanes = 10;
-    this.head = new ListItem(Number.MIN_SAFE_INTEGER);
-    this.terminator = new ListItem(Number.MAX_SAFE_INTEGER);
+    this.maxLane = 10;
+    this.head = new ListItem(Number.MIN_SAFE_INTEGER, this.maxLane);
+    this.terminator = new ListItem(Number.MAX_SAFE_INTEGER, this.maxLane);
 
     this.head.next = this.terminator;
     this.current = this.head;
   }
 
   insert(element) {
-    element = new ListItem(element);
+    element = new ListItem(element, 5);
+    let currentLane = this.maxLane;
 
-    let current = this.head;
-    while (current.next !== this.terminator) {
-      if (current.lookAhead(element)) {
+    let currentNode = this.head;
+    while (currentNode.next !== this.terminator) {
+      if (currentNode.lookAhead(element, currentLane)) {
         break;
       } else {
-        current = current.next;
+        currentNode = currentNode.next;
       }
     }
-    element.next = current.next;
-    current.next = element;
+    element.next = currentNode.next;
+    currentNode.next = element;
   }
 
   delete(element) {}

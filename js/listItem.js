@@ -1,10 +1,15 @@
 export default class ListItem {
-  constructor(value) {
-    this.value = value;
-    this.next = { value: 10 };
+  constructor(value, levels) {
+    this.levels = levels;
+    this.value = this.addToLanes(value);
+    this.next = [];
   }
 
-  lookAhead(element) {
-    return this.next.value > element.value;
+  addToLanes(value) {
+    return Array(this.levels).fill(value);
+  }
+
+  lookAhead(element, level) {
+    return this.next.value[level] > element.value[level];
   }
 }
