@@ -4,7 +4,7 @@ export default class ListItem {
     this.next = { value: 10 };
   }
 
-  lookAhead() {
-    return this.value > this.next.value;
+  lookAhead(element) {
+    return this.next.value > element.value;
   }
 }
