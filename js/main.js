@@ -10,5 +10,5 @@ skipList.insert(1);
 skipList.insert(13);
 
 for (let number of skipList) {
-  console.log(number.value);
+  console.log(number);
 }

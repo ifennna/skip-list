@@ -2,28 +2,36 @@ import ListItem from "./listItem.js";
 
 export default class SkipList {
   constructor() {
-    this.maxLane = 10;
-    this.head = new ListItem(Number.MIN_SAFE_INTEGER, this.maxLane);
-    this.terminator = new ListItem(Number.MAX_SAFE_INTEGER, this.maxLane);
+    this.maxLanes = 10;
+    this.head = new ListItem(Number.MIN_SAFE_INTEGER);
+    this.terminator = new ListItem(Number.MAX_SAFE_INTEGER);
 
-    this.head.next = this.terminator;
+    this.head.next = Array(this.maxLanes).fill(this.terminator);
     this.current = this.head;
   }
 
   insert(element) {
-    element = new ListItem(element, 5);
-    let currentLane = this.maxLane;
-
-    let currentNode = this.head;
-    while (currentNode.next !== this.terminator) {
-      if (currentNode.lookAhead(element, currentLane)) {
-        break;
-      } else {
-        currentNode = currentNode.next;
-      }
+    let lanes = 0;
+    while (Math.floor(Math.random() * 2) === 1 && lanes < this.maxLanes) {
+      lanes++;
     }
-    element.next = currentNode.next;
-    currentNode.next = element;
+
+    let node = new ListItem(element);
+    node.next = Array(lanes).fill(element);
+
+    let current = this.head;
+
+    for (let i = lanes; i >= 0; i--) {
+      while (current.next[i] !== this.terminator) {
+        if (current.lookAhead(node, i)) {
+          break;
+        } else {
+          current = current.next[i];
+        }
+      }
+      node.next[i] = current.next[i];
+      current.next[i] = node;
+    }
   }
 
   delete(element) {}
@@ -39,7 +47,7 @@ export default class SkipList {
           return { done: true };
         } else {
           const item = this.current;
-          this.current = this.current.next;
+          this.current = this.current.next[0];
           return { value: item, done: false };
         }
       }
