@@ -1,5 +1,4 @@
 import SkipList from "./skipList.js";
-import Renderer from "./renderer.js";
 
 let inputElement = document.getElementById("input");
 let buildTrigger = document.getElementById("button");
@@ -19,8 +18,7 @@ buildTrigger.onclick = event => {
     skipList.insert(Number(value));
   });
 
-  let renderer = new Renderer(skipList);
-  renderer.render();
+  skipList.render();
 };
 
 searchTrigger.onclick = event => {

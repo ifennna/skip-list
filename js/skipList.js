@@ -57,11 +57,25 @@ export default class SkipList {
     }
   }
 
+  render() {
+    let canvas = document.getElementById("listCanvas");
+    let dom = "";
+    for (let node of this) {
+      node.next[0].number = node.next.length;
+      if (node !== this.head && node !== this.terminator) {
+        dom += `<tr>` + `<td>${node.value}</td>`.repeat(node.number) + `</tr>`;
+      }
+    }
+    canvas.innerHTML = dom;
+  }
+
   [Symbol.iterator]() {
     return {
       next: () => {
         if (this.current === this.terminator) {
           return { done: true };
+        } else if (!this.current.next[0]) {
+          return { value: this.current, done: true };
         } else {
           const item = this.current;
           this.current = this.current.next[0];
