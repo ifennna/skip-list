@@ -16,7 +16,7 @@ export default class Renderer {
   }
 
   draw(node, lane) {
-    if (node.next[lane] === this.skipList.terminator) {
+    if (node.next[lane] === this.skipList.terminator || !node.next[lane]) {
       this.paint(node.value);
       this.endRow();
     } else {

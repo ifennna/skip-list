@@ -5,6 +5,6 @@ export default class ListItem {
   }
 
   lookAhead(element, index) {
-    return this.next[index].value > element.value;
+    return this.next[index] ? this.next[index].value > element.value : true;
   }
 }

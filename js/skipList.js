@@ -2,7 +2,7 @@ import ListItem from "./listItem.js";
 
 export default class SkipList {
   constructor() {
-    this.maxLanes = 10;
+    this.maxLanes = 1;
     this.head = new ListItem(Number.MIN_SAFE_INTEGER);
     this.terminator = new ListItem(Number.MAX_SAFE_INTEGER);
 
@@ -11,9 +11,13 @@ export default class SkipList {
   }
 
   insert(element) {
-    let lanes = 0;
-    while (Math.floor(Math.random() * 2) === 1 && lanes < this.maxLanes) {
+    let lanes = 1;
+    while (Math.floor(Math.random() * 2) === 1) {
       lanes++;
+      while (lanes > this.maxLanes) {
+        this.maxLanes++;
+        this.head.next.push(null);
+      }
     }
 
     let node = new ListItem(element);
