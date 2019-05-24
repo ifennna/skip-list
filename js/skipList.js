@@ -2,7 +2,7 @@ import ListItem from "./listItem.js";
 
 export default class SkipList {
   constructor() {
-    this.maxLanes = 1;
+    this.maxLanes = 0;
     this.head = new ListItem(Number.MIN_SAFE_INTEGER);
     this.terminator = new ListItem(Number.MAX_SAFE_INTEGER);
 
@@ -11,7 +11,7 @@ export default class SkipList {
   }
 
   insert(element) {
-    let lanes = 1;
+    let lanes = 0;
     while (Math.floor(Math.random() * 2) === 1) {
       lanes++;
       while (lanes > this.maxLanes) {
@@ -26,7 +26,7 @@ export default class SkipList {
 
     for (let i = lanes; i >= 0; i--) {
       while (current.next[i] !== this.terminator) {
-        if (current.lookAhead(node, i)) {
+        if (current.lookAhead(node.value, i)) {
           break;
         } else {
           current = current.next[i];
@@ -39,9 +39,23 @@ export default class SkipList {
 
   delete(element) {}
 
-  find(element) {}
+  find(element) {
+    let current = this.head;
 
-  match(element) {}
+    return this.seek(element, current, this.maxLanes);
+  }
+
+  seek(element, current, lane) {
+    if (current.value === element) {
+      return { match: true, value: current };
+    } else {
+      if (current.lookAhead(element, lane)) {
+        return lane === 0 ? { match: false, value: current } : this.seek(element, current, lane - 1);
+      } else {
+        return this.seek(element, current.next[lane], lane);
+      }
+    }
+  }
 
   [Symbol.iterator]() {
     return {
