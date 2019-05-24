@@ -1,15 +1,19 @@
 import SkipList from "./skipList.js";
 import Renderer from "./renderer.js";
 
-let skipList = new SkipList();
+let inputElement = document.getElementById("input");
+let button = document.getElementById("button");
 
-skipList.insert(5);
-skipList.insert(15);
-skipList.insert(12);
-skipList.insert(14);
-skipList.insert(1);
-skipList.insert(13);
+button.onclick = event => {
+  event.preventDefault();
 
-const renderer = new Renderer(skipList);
+  let input = inputElement.value.split(" ");
+  let skipList = new SkipList();
 
-renderer.render();
+  input.forEach(value => {
+    skipList.insert(Number(value));
+  });
+
+  let renderer = new Renderer(skipList);
+  renderer.render();
+};

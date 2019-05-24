@@ -16,7 +16,6 @@ export default class SkipList {
       lanes++;
       while (lanes > this.maxLanes) {
         this.maxLanes++;
-        this.head.next.push(null);
       }
     }
 

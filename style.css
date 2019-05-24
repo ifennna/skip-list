@@ -1,7 +1,16 @@
-table {
-    border: 1px solid black
+html {
+    font-family: 'Noto Sans', sans-serif;
 }
 
-.node {
-    border: 1px solid black
+table {
+    margin: 3px;
+    border: 2px solid purple;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 5px;
+    letter-spacing: 1px;
+    text-align: center;
+    border: 1px solid purple;
 }
