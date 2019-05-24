@@ -63,7 +63,7 @@ export default class SkipList {
     for (let node of this) {
       node.next[0].number = node.next.length;
       if (node !== this.head && node !== this.terminator) {
-        dom += `<tr>` + `<td>${node.value}</td>`.repeat(node.number) + `</tr>`;
+        dom += `<div class="nodeGroup">` + `<div class="node">${node.value}</div>`.repeat(node.number) + `</div>`;
       }
     }
     canvas.innerHTML = dom;

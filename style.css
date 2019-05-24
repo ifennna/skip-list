@@ -2,15 +2,34 @@ html {
     font-family: 'Noto Sans', sans-serif;
 }
 
-table {
-    margin: 3px;
-    border: 2px solid purple;
-    border-collapse: collapse;
+.canvas {
+    margin: 10px;
+    display: flex;
+    flex-flow: row;
 }
 
-td {
+.nodeGroup {
+    display: flex;
+    flex-flow: column;
+    justify-content: end;
+}
+
+.node {
     padding: 5px;
-    letter-spacing: 1px;
-    text-align: center;
     border: 1px solid purple;
+}
+
+.red {
+    background-color: rgb(100, 50, 0);
+    color: ghostwhite;
+}
+
+.blue {
+    background-color: rgb(0, 50, 100);
+    color: ghostwhite;
+}
+
+.green {
+    background-color: rgb(0, 100, 50);
+    color: ghostwhite;
 }
