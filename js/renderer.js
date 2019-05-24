@@ -1,6 +1,7 @@
 export default class Renderer {
   constructor(skipList) {
     this.skipList = skipList;
+    this.dom = "<tr>";
     this.canvas = document.getElementById("listCanvas");
   }
 
@@ -10,12 +11,14 @@ export default class Renderer {
     for (let i = this.skipList.maxLanes - 1; i >= 0; i--) {
       this.draw(node, i);
     }
+
+    this.canvas.innerHTML = this.dom;
   }
 
   draw(node, lane) {
     if (node.next[lane] === this.skipList.terminator) {
       this.paint(node.value);
-      this.paint("END");
+      this.endRow();
     } else {
       this.paint(node.value);
       this.draw(node.next[lane], lane);
@@ -23,9 +26,10 @@ export default class Renderer {
   }
 
   paint(value) {
-    let box = document.createElement("div");
-    box.classList.add("node");
-    box.innerText = value === this.skipList.head.value ? "HEAD" : value;
-    this.canvas.appendChild(box);
+    this.dom += value === this.skipList.head.value ? "<tr>" : `<td>${value}</td>`;
+  }
+
+  endRow() {
+    this.dom += "</tr>";
   }
 }
