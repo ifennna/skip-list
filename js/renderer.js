@@ -8,7 +8,7 @@ export default class Renderer {
   render() {
     let node = this.skipList.head;
 
-    for (let i = this.skipList.maxLanes - 1; i >= 0; i--) {
+    for (let i = this.skipList.maxLanes; i >= 0; i--) {
       this.draw(node, i);
     }
 
