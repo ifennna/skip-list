@@ -6,7 +6,7 @@ export default class SkipList {
     this.head = new ListItem(Number.MIN_SAFE_INTEGER);
     this.terminator = new ListItem(Number.MAX_SAFE_INTEGER);
 
-    this.head.next = Array(this.maxLanes).fill(this.terminator);
+    this.head.next = [this.terminator];
     this.current = this.head;
   }
 
@@ -20,7 +20,6 @@ export default class SkipList {
     }
 
     let node = new ListItem(element);
-    node.next = Array(lanes).fill(element);
 
     let current = this.head;
 
@@ -32,27 +31,42 @@ export default class SkipList {
           current = current.next[i];
         }
       }
-      node.next[i] = current.next[i];
+      node.next[i] = current.next[i] || this.terminator;
       current.next[i] = node;
     }
   }
 
-  delete(element) {}
+  delete(element) {
+    let deleteComparison = (element, current, lane) =>
+      current.next[lane] ? current.next[lane].value === element : false;
+    let deleteCallback = current => (current.next = current.next[0].next);
 
-  find(element) {
-    let current = this.head;
-
-    return this.seek(element, current, this.maxLanes);
+    return this._seek({
+      element,
+      current: this.head,
+      lane: this.maxLanes,
+      comparison: deleteComparison,
+      callback: deleteCallback
+    });
   }
 
-  seek(element, current, lane) {
-    if (current.value === element) {
+  find(element) {
+    let equalityComparison = (element, current, ...rest) => current.value === element;
+
+    return this._seek({ element, current: this.head, lane: this.maxLanes, comparison: equalityComparison });
+  }
+
+  _seek({ element, current, lane, comparison, callback = () => {} }) {
+    if (comparison(element, current, lane)) {
+      callback(current);
       return { match: true, value: current };
     } else {
       if (current.lookAhead(element, lane)) {
-        return lane === 0 ? { match: false, value: current } : this.seek(element, current, lane - 1);
+        return lane === 0
+          ? { match: false, value: current }
+          : this._seek({ element, current, lane: lane - 1, comparison, callback });
       } else {
-        return this.seek(element, current.next[lane], lane);
+        return this._seek({ element, current: current.next[lane], lane, comparison, callback });
       }
     }
   }
@@ -73,11 +87,11 @@ export default class SkipList {
     return {
       next: () => {
         if (this.current === this.terminator) {
+          this.current = this.head;
           return { done: true };
-        } else if (!this.current.next[0]) {
-          return { value: this.current, done: true };
         } else {
           const item = this.current;
+          this.current.next[0] = this.current.next[0] || this.terminator;
           this.current = this.current.next[0];
           return { value: item, done: false };
         }
