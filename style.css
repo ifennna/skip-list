@@ -2,6 +2,32 @@ html {
     font-family: 'Noto Sans', sans-serif;
 }
 
+body {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 10px;
+}
+
+.col-12 {
+    grid-column: span 12;
+}
+.col-6 {
+    grid-column: span 6;
+}
+.col-4 {
+    grid-column: span 4;
+}
+.col-3 {
+    grid-column: span 3;
+}
+.col-2 {
+    grid-column: span 2;
+}
+.col-1 {
+    grid-column: span 1;
+}
+
 .canvas {
     margin: 10px;
     display: flex;
@@ -19,17 +45,3 @@ html {
     border: 1px solid purple;
 }
 
-.red {
-    background-color: rgb(100, 50, 0);
-    color: ghostwhite;
-}
-
-.blue {
-    background-color: rgb(0, 50, 100);
-    color: ghostwhite;
-}
-
-.green {
-    background-color: rgb(0, 100, 50);
-    color: ghostwhite;
-}

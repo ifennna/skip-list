@@ -6,24 +6,34 @@
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
-        <form>
-            <input type="text" id="input">
-            <button id="button">Build</button>
-        </form>
-        <div class="canvas" id="listCanvas"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <form>
+                <input type="text" id="input">
+                <button id="button">Build</button>
+            </form>
+            <div class="canvas" id="listCanvas"></div>
+        </div>
+        <div class="col-4"></div>
 
-        <form>
+        <div class="col-2"></div>
+        <div class="col-4">
+            <form>
             <input type="text" id="searchInput">
             <button id="searchButton">Search</button>
         </form>
         <p id="searchResult"></p>
-        
-        <form>
-            <input type="text" id="deleteInput">
-            <button id="deleteButton">Delete</button>
-        </form>
-        <p id="deleteResult"></p>
-       
+        </div>
+
+        <div class="col-4">
+            <form>
+                <input type="text" id="deleteInput">
+                <button id="deleteButton">Delete</button>
+            </form>
+            <p id="deleteResult"></p>
+        </div>
+        <div class="col-2"></div>
+
         <script src="js/main.js" type="module"></script>
     </body>
 </html>
