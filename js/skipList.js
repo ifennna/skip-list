@@ -39,7 +39,15 @@ export default class SkipList {
   delete(element) {
     let deleteComparison = (element, current, lane) =>
       current.next[lane] ? current.next[lane].value === element : false;
-    let deleteCallback = current => (current.next = current.next[0].next);
+    let deleteCallback = (element, current) => {
+      current.next = current.next.map((node, index) => {
+        if (node.value === element) {
+          return node.next[index];
+        } else {
+          return node;
+        }
+      });
+    };
 
     return this._seek({
       element,
@@ -58,7 +66,7 @@ export default class SkipList {
 
   _seek({ element, current, lane, comparison, callback = () => {} }) {
     if (comparison(element, current, lane)) {
-      callback(current);
+      callback(element, current);
       return { match: true, value: current };
     } else {
       if (current.lookAhead(element, lane)) {
